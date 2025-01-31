@@ -1,18 +1,27 @@
 defmodule Berth do
   @moduledoc """
-  Documentation for `Berth`.
+  Berth is a cache server for a S3 storage
   """
 
-  @doc """
-  Hello world.
+  use Application
+  require Logger
 
-  ## Examples
+  @impl true
+  def start(type, args) do
+    sys_args = OptionParser.parse(System.argv(), strict: [config: :string])
+    Logger.notice("Application: start: type: #{inspect(type)}, args: #{inspect(args)}, sys_args: #{inspect(sys_args)}")
 
-      iex> Berth.hello()
-      :world
+    children = [
+      {Bandit, plug: Berth.MainRouter, port: 8080}  # module spec
+    ]
 
-  """
-  def hello do
-    :world
+    opts = [strategy: :one_for_one, name: Berth.Supervisor]
+    Supervisor.start_link(children, opts)
   end
+
+  @impl true
+  def stop(arg) do
+    Logger.notice("Application: stop: arg: #{inspect(arg)}")
+  end
+
 end
