@@ -12,6 +12,7 @@ defmodule Berth do
     Logger.notice("Application: start: type: #{inspect(type)}, args: #{inspect(args)}, sys_args: #{inspect(sys_args)}")
 
     children = [
+      Berth.BlobCache,  #TODO: cache size from config
       {Bandit, plug: Berth.MainRouter, port: 8080}  # module spec
     ]
 

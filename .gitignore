@@ -21,3 +21,7 @@ berth-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# IDEA files
+/.idea/
+*.iml
